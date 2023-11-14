@@ -2,9 +2,10 @@ package controller;
 
 import java.io.File;
 import java.util.ArrayList;
-import application.Album;
+
 import application.User;
 import application.Users;
+import application.Album;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

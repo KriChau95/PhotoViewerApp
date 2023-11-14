@@ -1,11 +1,12 @@
 package controller;
 
 import java.util.ArrayList;
-import application.Album;
+
 import application.Photo;
 import application.Tag;
 import application.User;
 import application.Users;
+import application.Album;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
