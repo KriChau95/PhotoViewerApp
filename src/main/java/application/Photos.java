@@ -12,7 +12,7 @@ public class Photos extends Application {
     public void start(Stage stage) throws IOException {
         stage.setTitle("Photos88");
         FXMLLoader fxmlLoader = new FXMLLoader(Photos.class.getResource("/fxml/Login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load(), 508 , 550);
         stage.setScene(scene);
         stage.show();
     }

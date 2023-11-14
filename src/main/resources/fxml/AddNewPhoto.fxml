@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="157.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="52.0" prefWidth="527.0" spacing="395.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="CancelButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="118.0" text="Cancel" />
+                <Button fx:id="AddPhotoButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="118.0" text="Add Photo" />
+            </children>
+        </HBox>
+    </bottom>
+    <top>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add Photo" wrappingWidth="643.205078125" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets left="10.0" top="10.0" />
+            </BorderPane.margin>
+        </Text>
+    </top>
+    <center>
+        <TextField fx:id="DirectoryTextField" prefHeight="39.0" prefWidth="527.0" promptText="enter directory here" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </BorderPane.margin>
+        </TextField>
+    </center>
+    <left>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Directory: " BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets left="10.0" />
+            </BorderPane.margin>
+        </Text>
+    </left>
+</BorderPane>

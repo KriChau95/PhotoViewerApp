@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="250.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCaptionsTagsController">
+    <top>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Change Captions/Add Tags" wrappingWidth="614.294921875" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </BorderPane.margin>
+        </Text>
+    </top>
+    <bottom>
+        <HBox prefHeight="47.0" prefWidth="622.0" spacing="390.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#cancel" prefHeight="39.0" prefWidth="105.0" text="Cancel" />
+                <Button fx:id="UpdateButton" mnemonicParsing="false"  onAction="#update" prefHeight="39.0" prefWidth="105.0" text="Update" />
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </BorderPane.margin>
+        </HBox>
+    </bottom>
+    <left>
+        <VBox alignment="CENTER_RIGHT" prefHeight="136.0" prefWidth="72.0" spacing="60.0" BorderPane.alignment="CENTER">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Caption:" wrappingWidth="66.9794921875" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tags:" wrappingWidth="46.728515625" />
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </BorderPane.margin>
+        </VBox>
+    </left>
+    <center>
+        <VBox alignment="CENTER" prefHeight="136.0" prefWidth="517.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <TextField fx:id="CaptionTextField" promptText="enter caption here" />
+                <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter tags in this format: name,value" wrappingWidth="517.205078125" />
+                <TextField fx:id="TagsTextField" promptText="enter tags here" />
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </BorderPane.margin>
+        </VBox>
+    </center>
+</BorderPane>

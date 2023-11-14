@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="650.0" prefWidth="1158.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OpenAlbumController">
+    <right>
+        <VBox prefHeight="502.0" prefWidth="353.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <TextArea fx:id="CaptionTextArea" prefHeight="230.0" prefWidth="353.0" promptText="caption displays here" />
+                <ListView fx:id="TagsListView" prefHeight="369.0" prefWidth="353.0" />
+            </children>
+        </VBox>
+    </right>
+    <bottom>
+        <VBox prefHeight="113.0" prefWidth="1086.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox prefHeight="94.0" prefWidth="1086.0" spacing="10.0">
+                    <children>
+                        <Button fx:id="AddButton" mnemonicParsing="false" onAction="#add" prefHeight="39.0" prefWidth="110.0" text="Add" />
+                        <Button fx:id="RemoveButton" mnemonicParsing="false" onAction="#remove" prefHeight="39.0" prefWidth="110.0" text="Remove" />
+                        <Button fx:id="CopyButton" mnemonicParsing="false" onAction="#copy" prefHeight="39.0" prefWidth="110.0" text="Copy" />
+                        <Button fx:id="MoveButton" mnemonicParsing="false" onAction="#move" prefHeight="39.0" prefWidth="123.0" text="Move" />
+                        <Button fx:id="LeftButton" mnemonicParsing="false" onAction="#left" prefHeight="39.0" prefWidth="60.0" text="&lt;-">
+                            <HBox.margin>
+                                <Insets left="160.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="RightButton" mnemonicParsing="false" onAction="#right" prefHeight="39.0" prefWidth="60.0" text="-&gt;" />
+                    </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                    <children>
+                        <Button fx:id="CaptionChangeTagsButton" mnemonicParsing="false" onAction="#captionChangeTags" prefHeight="39.0" prefWidth="231.0" text="Change Caption/Add Tag" />
+                        <Button fx:id="RemoveTagButton" mnemonicParsing="false" onAction="#removeTag" text="Remove Tag" />
+                        <Button fx:id="BackButton" mnemonicParsing="false" onAction="#back" text="Back">
+                            <HBox.margin>
+                                <Insets left="690.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </VBox>
+    </bottom>
+    <top>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="View Album" wrappingWidth="1129.205078125" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </BorderPane.margin>
+        </Text>
+    </top>
+    <left>
+        <ImageView fx:id="PhotoView" fitHeight="470.0" fitWidth="785.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </BorderPane.margin>
+        </ImageView>
+    </left>
+</BorderPane>

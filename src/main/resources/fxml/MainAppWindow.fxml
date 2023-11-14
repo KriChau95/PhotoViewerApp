@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="629.0" prefWidth="1148.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainAppWindowController">
+    <top>
+        <VBox prefHeight="59.0" prefWidth="1148.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox prefHeight="28.0" prefWidth="1086.0" spacing="10.0">
+                    <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Photos Application" wrappingWidth="158.0986328125">
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Text>
+                        <Button fx:id="CreateAlbumButton" mnemonicParsing="false" onAction="#createAlbum" text="Create Album" />
+                        <Button fx:id="DeleteAlbumButton" mnemonicParsing="false" onAction="#deleteAlbum" text="Delete Album" />
+                        <Button fx:id="RenameAlbumButton" mnemonicParsing="false" onAction="#renameAlbumButton" text="Rename Album" />
+                        <Button fx:id="OpenAlbumButton" mnemonicParsing="false" onAction="#openAlbum" text="Open Album" />
+                    </children>
+                    <padding>
+                        <Insets top="10.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <left>
+        <ListView fx:id="AlbumView" pickOnBounds="true" prefHeight="511.0" prefWidth="776.0" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets left="10.0" right="10.0" />
+            </BorderPane.margin>
+        </ListView>
+    </left>
+    <right>
+        <VBox prefHeight="514.0" prefWidth="353.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <TextArea fx:id="PhotoInfoTextArea" prefHeight="509.0" prefWidth="343.0" promptText="(photo info placeholder)">
+                    <VBox.margin>
+                        <Insets right="10.0" />
+                    </VBox.margin>
+                </TextArea>
+            </children>
+        </VBox>
+    </right>
+    <bottom>
+        <VBox prefHeight="43.0" prefWidth="1148.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                    <children>
+                        <Button fx:id="SearchByTagsButton" mnemonicParsing="false" onAction="#searchByTags" text="Search by Tags" />
+                        <Button fx:id="SearchByDateButton" mnemonicParsing="false" onAction="#searchByDate" text="Search by Date" />
+                        <Button fx:id="LogoutButton" mnemonicParsing="false" onAction="#logout" text="Logout">
+                            <HBox.margin>
+                                <Insets left="565.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </VBox>
+    </bottom>
+</BorderPane>
