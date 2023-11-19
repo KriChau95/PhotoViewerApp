@@ -6,16 +6,16 @@ import java.io.Serializable;
 public class Tag implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    private String type;
+    private String name;
     private String value;
 
-    public Tag(String type, String value){
-        this.type = type;
+    public Tag(String name, String value){
+        this.name = name;
         this.value = value;
     }
 
-    public String getType(){
-        return this.type;
+    public String getName(){
+        return this.name;
     }
 
     public String getValue(){
@@ -23,7 +23,16 @@ public class Tag implements Serializable {
     }
 
     public String toString(){
-        return type + ":" + value;
+        return name + ":" + value;
+    }
+
+    public boolean equals(Object o){
+        if (o == null || !(o instanceof Tag)){
+            return false;
+        }
+        Tag other = (Tag) o;
+        return this.name.equals(other.getName()) && this.value.equals(other.getValue());
+
     }
 
 }

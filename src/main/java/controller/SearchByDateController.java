@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -10,7 +11,7 @@ import java.util.Date;
 import application.Album;
 import application.Photo;
 import application.User;
-import application.Users;
+import application.UserData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,101 +23,92 @@ import javafx.stage.Stage;
 
 public class SearchByDateController extends Stage{
 
-    private Users users;
+    private UserData userData;
     private User user;
-    private Album newAlbum;
+    private Album resultAlbum;
 
     @FXML
-    DatePicker LeftDatePicker;
+    DatePicker StartDatePicker;
 
     @FXML
-    DatePicker RightDatePicker;
+    DatePicker EndDatePicker;
 
-    public void search(ActionEvent event) {
-        LocalDate localDate = LeftDatePicker.getValue();
-        if (localDate == null) return;
+    public Calendar getCalendar(LocalDate ld){
+        Instant startInstant = Instant.from(ld.atStartOfDay(ZoneId.systemDefault()));
+        Date startingDate = Date.from(startInstant);
+        Calendar result = Calendar.getInstance();
+        result.setTime(startingDate);
+        return result;
+    }
 
-        Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-        Date leftdate = Date.from(instant);
-        Calendar leftCalendar = Calendar.getInstance();
-        leftCalendar.setTime(leftdate);
+    public void search(ActionEvent event) throws IOException {
 
-        localDate = RightDatePicker.getValue();
-        if (localDate == null) return;
+        LocalDate startDate = StartDatePicker.getValue();
+        LocalDate endDate = EndDatePicker.getValue();
 
-        instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-        Date rightdate= Date.from(instant);
-        Calendar rightCalendar = Calendar.getInstance();
-        rightCalendar.setTime(rightdate);
+        if (startDate == null || endDate == null){
+            return;
+        }
 
+        Calendar start = getCalendar(startDate);
+        Calendar end = getCalendar(endDate);
 
-        newAlbum = new Album("");
+        resultAlbum = new Album("");
         ArrayList<Album> albums = user.getAlbums();
-        for (int i = 0; i < albums.size(); i++) {
-            Album album = albums.get(i);
-            for (int j = 0; j < album.getSize(); j++) {
-                Photo photo = album.getPhoto(j);
-                if (photo.getCalendar().before(rightCalendar) && photo.getCalendar().after(leftCalendar)) {
-                    newAlbum.addPhoto(photo);
+        for (Album album : albums) {
+            for (int i = 0; i < album.getSize(); i++) {
+                Photo photo = album.getPhoto(i);
+                if (photo.getDate().after(start) && photo.getDate().before(end)) {
+                    resultAlbum.addPhoto(photo);
                 }
             }
         }
-
-        loadSearchWindow(event);
+        loadSearchResultsWindow(event);
     }
 
-    public void cancel(ActionEvent event) {
-        loadMainWindow(event); //go back
+    public void loadSearchResultsWindow(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/SearchResultsWindow.fxml"));
+        Parent root = (Parent) loader.load();
+
+        SearchResultsController controller = loader.<SearchResultsController>getController();
+        controller.loadUser(user);
+        controller.loadUsers(userData);
+        controller.loadAlbum(resultAlbum);
+        controller.setup();
+
+        setScene(event, root);
     }
 
-    public void loadSearchWindow(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/SearchResultsWindow.fxml"));
-            Parent root = (Parent) loader.load();
+    public void goBackToMainWindow(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/MainAppWindow.fxml"));
+        Parent root = (Parent) loader.load();
 
-            SearchResultsController controller = loader.<SearchResultsController>getController();
-            controller.loadUser(user);
-            controller.loadUsers(users);
-            controller.loadAlbum(newAlbum);
-            controller.setup();
+        MainAppWindowController controller = loader.<MainAppWindowController>getController();
+        controller.loadUser(user);
+        controller.loadUsers(userData);
+        controller.view();
 
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        setScene(event, root);
     }
 
-    public void loadMainWindow(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/MainAppWindow.fxml"));
-            Parent root = (Parent) loader.load();
+    public void setScene(ActionEvent event, Parent root){
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
-            MainAppWindowController controller = loader.<MainAppWindowController>getController();
-            controller.loadUser(user);
-            controller.loadUsers(users);
-            controller.view();
-
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void quitApp(ActionEvent event){
+        System.exit(0);
     }
 
     public void loadUser(User user) {
         this.user = user;
     }
 
-    public void loadUsers(Users users) {
-        this.users = users;
+    public void loadUsers(UserData userData) {
+        this.userData = userData;
     }
 }

@@ -1,10 +1,11 @@
 package controller;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import application.Tag;
 import application.User;
-import application.Users;
+import application.UserData;
 import application.Album;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,14 +18,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class SearchResultsController extends Stage{
 
-    private Users users;
+    private UserData userData;
     private User user;
     private Album album;
     private int index,size;
@@ -43,46 +42,17 @@ public class SearchResultsController extends Stage{
 
     private ObservableList<String> obsList;
 
-    public void add(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        File file = fileChooser.showOpenDialog(primaryStage);
-        if (file == null) return; //no file selected
-        Image image = new Image(file.toURI().toString());
-        try {
-            image.getHeight();
-        } catch (Exception e) {
-            System.out.println("Wrong type of file");
-            return;
-        }
-        album.addImage(image);
-        update(); //updates values of album
-
-        //change view to new image
-        updateLatestView();
-
-    }
-
-    public void remove() {
-        if (index < 0) return;
-        album.removeIndex(index); //removes photo
-        update();
-        updateLatestView();
-    }
-
-    public void createNewAlbum(ActionEvent event) {
+    public void createNewAlbum(ActionEvent event) throws IOException {
         String albumname = NewAlbumNameTextField.getText();
         if (albumname.equals("") || user.albumExists(albumname)) {
-            System.out.println("please enter an album name");
+            // maybe have some text popup
             return;
         }
 
         album.setName(albumname);
         user.addAlbum(album);
-        Users.store(users);
-        loadMainWindow(event);
+        UserData.store(userData);
+        goBackToMainWindow(event);
     }
 
     public void left() {
@@ -97,10 +67,6 @@ public class SearchResultsController extends Stage{
         updateLatestView();
     }
 
-    public void back(ActionEvent event) {
-        loadMainWindow(event);
-    }
-
     private void update() {
         size = album.getSize();
         index = size-1;
@@ -108,7 +74,6 @@ public class SearchResultsController extends Stage{
 
     public void setup() {
         size = album.getPhotoList().size();
-
         index = album.getPhotoList().size()-1;
         CaptionTextArea.setEditable(false);
         updateLatestView();
@@ -128,7 +93,7 @@ public class SearchResultsController extends Stage{
         String photoInfo = "";
         photoInfo += album.getName() + "\n";
         photoInfo += (index+1)+" out of "+size + "\n";
-        photoInfo += album.getPhoto(index).getDate();
+        photoInfo += album.getPhoto(index).getDate().getTime().toString();
         photoInfo += "\n";
         photoInfo += album.getPhoto(index).getCaption();
 
@@ -141,37 +106,40 @@ public class SearchResultsController extends Stage{
             TagsListView.setItems(FXCollections.observableArrayList(new ArrayList<String>()));
             return;
         }
-        obsList = FXCollections.observableArrayList(album.getPhoto(index).getTagStrings());
+        ArrayList<String> tagStringList = new ArrayList<String>();
+        for (Tag t : album.getPhoto(index).getTagList()){
+            tagStringList.add(t.toString());
+        }
+        obsList = FXCollections.observableArrayList(tagStringList);
         TagsListView.setItems(obsList);
     }
 
-    public void loadMainWindow(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/MainAppWindow.fxml"));
-            Parent root = (Parent) loader.load();
+    public void goBackToMainWindow(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/MainAppWindow.fxml"));
+        Parent root = (Parent) loader.load();
 
-            MainAppWindowController controller = loader.<MainAppWindowController>getController();
-            controller.loadUser(user);
-            controller.loadUsers(users);
-            controller.view();
+        MainAppWindowController controller = loader.<MainAppWindowController>getController();
+        controller.loadUser(user);
+        controller.loadUsers(userData);
+        controller.view();
 
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void quitApp(ActionEvent event){
+        System.exit(0);
     }
 
     public void loadUser(User user) {
         this.user = user;
     }
 
-    public void loadUsers(Users users) {
-        this.users = users;
+    public void loadUsers(UserData userData) {
+        this.userData = userData;
     }
 
     public void loadAlbum(Album album) {

@@ -13,51 +13,37 @@ public class Album implements Serializable{
     private static final long serialVersionUID = 1L;
     private ArrayList<Photo> photoList;
     private String name;
-    private int numPhotos;
-
-    private Photo first, last; //for keeping track of the oldest and newest photos in the album
+    private Photo earliestPhoto;
+    private Photo latestPhoto;
 
     public Album(String name) {
         this.name = name;
         photoList = new ArrayList<Photo>();
-        numPhotos = 0;
-        first = null;
-        last = null;
+        earliestPhoto = null;
+        latestPhoto = null;
     }
 
-    public void findDates() {
-        findFirst();
-        findLast();
-    }
-
-    public void findFirst() {
-        if (photoList.isEmpty()) {
-            first = null;
+    public void findDateRange() {
+        if (photoList.isEmpty()){
+            earliestPhoto = null;
+            latestPhoto = null;
             return;
         }
+        earliestPhoto = photoList.get(0);
+        latestPhoto = photoList.get(0);
+        Calendar earliestDate = earliestPhoto.getDate();
+        Calendar latestDate = latestPhoto.getDate();
 
-        first = photoList.get(0);
-        Calendar first = photoList.get(0).getCalendar();
-        for (int i = 1 ;i < photoList.size(); i++) {
-            if (photoList.get(i).getCalendar().before(first)) {
-                first = photoList.get(i).getCalendar();
-                this.first = photoList.get(i);
+        for (int i = 1; i < photoList.size(); i++){
+            Photo currPhoto = photoList.get(i);
+            Calendar thisDate = currPhoto.getDate();
+            if (thisDate.before(earliestDate)){
+                earliestDate = thisDate;
+                earliestPhoto = currPhoto;
             }
-        }
-    }
-
-    public void findLast() {
-        if (photoList.isEmpty()) {
-            last = null;
-            return;
-        }
-
-        last = photoList.get(0);
-        Calendar last = photoList.get(0).getCalendar();
-        for (int i = 1 ;i < photoList.size(); i++) {
-            if (last.before(photoList.get(i).getCalendar())) {
-                last = photoList.get(i).getCalendar();
-                this.last = photoList.get(i);
+            if (thisDate.after(latestDate)){
+                latestDate = thisDate;
+                latestPhoto = currPhoto;
             }
         }
     }
@@ -65,11 +51,6 @@ public class Album implements Serializable{
     public ArrayList<Photo> getPhotoList() {
         return photoList;
     }
-
-    public void addImage(Image i) {
-        photoList.add(new Photo(i));
-    }
-
 
     public void addPhoto(Photo p) {
         photoList.add(p);
@@ -83,24 +64,6 @@ public class Album implements Serializable{
         photoList.remove(photo);
     }
 
-    public boolean photoExists(String name) {
-        for (Photo photo : photoList) {
-            if (photo != null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    public Image getThumbnail() {
-        if (photoList.isEmpty()){
-            return null;
-        }
-        else {
-            return photoList.get(0).getImage();
-        }
-    }
 
     public String getName() {
         return name;
@@ -122,24 +85,16 @@ public class Album implements Serializable{
         return photoList.size();
     }
 
-    public void incrementNumPhotos() {
-        numPhotos++;
-    }
-
-    public int getNumPhotos() {
-        return numPhotos;
-    }
-
-    public String getFirstDate() {
-        if (first != null) {
-            return first.getDate();
+    public String getEarliestDate() {
+        if (earliestPhoto != null) {
+            return earliestPhoto.getDate().getTime().toString();
         } else {
             return "";
         }
     }
-    public String getLastDate() {
-        if (last != null) {
-            return last.getDate();
+    public String getLatestDate() {
+        if (latestPhoto != null) {
+            return latestPhoto.getDate().getTime().toString();
         } else {
             return "";
         }

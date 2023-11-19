@@ -2,7 +2,7 @@ package controller;
 
 import java.io.IOException;
 
-import application.Users;
+import application.UserData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,9 +25,9 @@ public class CreateNewUserController extends Stage {
     @FXML
     private Label ErrorText;
 
-    Users users;
+    UserData userData;
 
-    public void createNewUser(ActionEvent event) throws IOException, ClassNotFoundException {
+    public void createNewUser(ActionEvent event) throws IOException {
 
         String username = UsernameTextField.getText();
         username = username.trim();
@@ -40,40 +40,33 @@ public class CreateNewUserController extends Stage {
             return;
         }
 
-        users = Users.load();
-        users.add(username);
-        Users.store(users);
+        userData = UserData.load();
+        userData.addUser(username);
+        UserData.store(userData);
 
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/AdminSystem.fxml"));
-            Parent root = (Parent) loader.load();
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/AdminSystem.fxml"));
+        Parent root = (Parent) loader.load();
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
     }
 
+    public void cancel(ActionEvent event) throws IOException {
 
-    public void cancel(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/AdminSystem.fxml"));
+        Parent root = (Parent) loader.load();
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/AdminSystem.fxml"));
-            Parent root = (Parent) loader.load();
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
+    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public void quitApp(ActionEvent event){
+        System.exit(0);
     }
 }

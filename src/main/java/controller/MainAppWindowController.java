@@ -1,10 +1,11 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.User;
-import application.Users;
+import application.UserData;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,9 +21,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-public class MainAppWindowController extends Stage implements Initializable {
+public class MainAppWindowController implements Initializable {
 
-    Users users;
+    UserData userData;
     User user;
 
     @FXML
@@ -31,69 +32,51 @@ public class MainAppWindowController extends Stage implements Initializable {
     @FXML
     TextArea PhotoInfoTextArea;
 
-    private ObservableList<String> obsList;
-    /**
-     * searchByTags - search for a photo by tags.
-     * @param event
-     */
-    public void searchByTags(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/SearchByTagWindow.fxml"));
-            Parent root = (Parent) loader.load();
+    private ObservableList<String> AlbumsObsList;
 
-            SearchByTagsController controller = loader.<SearchByTagsController>getController();
-            controller.loadUser(user);
-            controller.loadUsers(users);
+    public void searchByTags(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/SearchByTagWindow.fxml"));
+        Parent root = (Parent) loader.load();
 
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
+        SearchByTagsController controller = loader.<SearchByTagsController>getController();
+        controller.loadUser(user);
+        controller.loadUsers(userData);
+        controller.setup();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        setScene(event, root);
+
     }
 
-    public void searchByDate(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/SearchByDateWindow.fxml"));
-            Parent root = (Parent) loader.load();
-
-            SearchByDateController controller = loader.<SearchByDateController>getController();
-            controller.loadUser(user);
-            controller.loadUsers(users);
-
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void setScene(ActionEvent event, Parent root){
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
-    public void createAlbum(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/CreateAlbumWindow.fxml"));
-            Parent root = (Parent) loader.load();
+    public void searchByDate(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/SearchByDateWindow.fxml"));
+        Parent root = (Parent) loader.load();
 
-            CreateAlbumController controller = loader.<CreateAlbumController>getController();
-            controller.loadUser(user);
-            controller.loadUsers(users);
+        SearchByDateController controller = loader.<SearchByDateController>getController();
+        controller.loadUser(user);
+        controller.loadUsers(userData);
 
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
+        setScene(event, root);
+    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void createAlbum(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/CreateAlbumWindow.fxml"));
+        Parent root = (Parent) loader.load();
+
+        CreateAlbumController controller = loader.<CreateAlbumController>getController();
+        controller.loadUser(user);
+        controller.loadUsers(userData);
+
+        setScene(event, root);
     }
 
     public void deleteAlbum() {
@@ -102,75 +85,57 @@ public class MainAppWindowController extends Stage implements Initializable {
         if (album == null) return;
 
         user.deleteAlbum(album);
-        Users.store(users);
+        UserData.store(userData);
         view();
     }
 
-    public void renameAlbumButton(ActionEvent event) {
+    public void renameAlbumButton(ActionEvent event) throws IOException {
         String album = AlbumView.getSelectionModel().getSelectedItem();
 
-        if (album == null)
-            return;
-        try {
+        if (album != null){
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/RenameAlbumWindow.fxml"));
             Parent root = (Parent) loader.load();
 
             RenameAlbumController controller = loader.<RenameAlbumController>getController();
             controller.loadUser(user);
-            controller.loadUsers(users);
+            controller.loadUsers(userData);
             controller.loadAlbum(user.getAlbum(album));
 
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            setScene(event, root);
         }
+
     }
 
-    public void openAlbum(ActionEvent event) {
+    public void openAlbum(ActionEvent event) throws IOException {
 
         String album = AlbumView.getSelectionModel().getSelectedItem();
-        if (album == null)
-            return;
 
-        try {
-            // load ViewAlbumWindow
+        if (album != null){
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/OpenAlbumWindow.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/AllPhotos.fxml"));
             Parent root = (Parent) loader.load();
 
-            OpenAlbumController controller = loader.<OpenAlbumController>getController();
+            AllPhotosController controller = loader.<AllPhotosController>getController();
             controller.loadUser(user);
-            controller.loadUsers(users);
+            controller.loadUsers(userData);
             controller.loadAlbum(user.getAlbum(album));
             controller.setup();
 
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+            setScene(event, root);
         }
+
     }
 
-    public void logout(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/Login.fxml"));
-            Parent root = (Parent) loader.load();
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
+    public void logout(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/Login.fxml"));
+        Parent root = (Parent) loader.load();
+        setScene(event, root);
+    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void quitApp(ActionEvent event){
+        System.exit(0);
     }
 
     @Override
@@ -185,30 +150,27 @@ public class MainAppWindowController extends Stage implements Initializable {
                     PhotoInfoTextArea.setText("");
                     return;
                 }
-                user.getAlbum(albumname).findDates();
+                user.getAlbum(albumname).findDateRange();
                 PhotoInfoTextArea.setText("Name: "+user.getAlbum(albumname).getName()+"\n"+
                         "Size: "+user.getAlbum(albumname).getSize()+"\n"+
-                        "Oldest Photo: "+user.getAlbum(albumname).getFirstDate()+"\n"+
-                        "Newest Photo: "+user.getAlbum(albumname).getLastDate());
+                        "Earliest Photo: "+user.getAlbum(albumname).getEarliestDate()+"\n"+
+                        "Latest Photo: "+user.getAlbum(albumname).getLatestDate());
             }
         });
 
-        users = Users.load();
+        userData = UserData.load();
     }
-    /**
-     * view - view the albums.
-     */
+
     public void view() {
-        obsList = FXCollections.observableArrayList(user.getAlbumNames());
-        AlbumView.setItems(obsList);
+        AlbumsObsList = FXCollections.observableArrayList(user.getAlbumNames());
+        AlbumView.setItems(AlbumsObsList);
     }
 
     public void loadUser(User user) {
         this.user = user;
     }
 
-    public void loadUsers(Users users) {
-        this.users = users;
-
+    public void loadUsers(UserData userData) {
+        this.userData = userData;
     }
 }

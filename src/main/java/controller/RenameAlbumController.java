@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import application.Album;
 import application.User;
-import application.Users;
+import application.UserData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,75 +15,64 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class RenameAlbumController extends Stage {
+public class RenameAlbumController {
 
     @FXML
-    Button CreateButton;
+    Button RenameButton;
     @FXML
     Button CancelButton;
     @FXML
-    TextField UsernameTextField;
+    TextField AlbumNameTextField;
 
-    Users users;
+    UserData userData;
     Album album;
     User user;
 
-    public void rename(ActionEvent event) throws IOException, ClassNotFoundException {
+    public void rename(ActionEvent event) throws IOException {
 
-        String albumname = UsernameTextField.getText();
-        albumname = albumname.trim();
-        if (albumname.equals("") || user.albumExists(albumname)) {
-            System.out.println("please enter an album name");
+        String albumName = AlbumNameTextField.getText().trim();
+        if (albumName.equals("") || user.albumExists(albumName)) {
+            // potential welcome/error text
             return;
         }
+        album.setName(albumName);
+        UserData.store(userData);
 
-        album.setName(albumname);
-        Users.store(users);
-
-        loadMainWindow(event);
-
-    }
-
-    public void cancel(ActionEvent event) {
-
-        loadMainWindow(event);
+        goBackToMainWindow(event);
 
     }
 
+    public void goBackToMainWindow(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/MainAppWindow.fxml"));
+        Parent root = (Parent) loader.load();
 
-    public void loadMainWindow(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/MainAppWindow.fxml"));
-            Parent root = (Parent) loader.load();
+        MainAppWindowController controller = loader.<MainAppWindowController>getController();
+        controller.loadUser(user);
+        controller.loadUsers(userData);
+        controller.view();
 
-            MainAppWindowController controller = loader.<MainAppWindowController>getController();
-            controller.loadUser(user);
-            controller.loadUsers(users);
-            controller.view();
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void quitApp(ActionEvent vent){
+        System.exit(0);
     }
 
     public void loadUser(User user) {
         this.user = user;
     }
 
-    public void loadUsers(Users users) {
-        this.users = users;
+    public void loadUsers(UserData userData) {
+        this.userData = userData;
 
     }
 
     public void loadAlbum(Album album) {
         this.album = album;
-
     }
 
 }

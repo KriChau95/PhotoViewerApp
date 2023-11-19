@@ -17,25 +17,19 @@ public class User implements Serializable {
     }
 
     public void addAlbum(String name) {
-        if (albumExists(name)) return;
-        albumList.add(new Album(name));
+        if (!albumExists(name)) {
+            albumList.add(new Album(name));
+        }
     }
 
     public void addAlbum(Album album) {
-        if (albumExists(album.getName())) return;
-        albumList.add(album);
-    }
-    public void renameAlbum(String album, String newName) {
-        for (int i = 0; i < albumList.size();i++) {
-            if (albumList.get(i).getName().equals(album)) {
-                albumList.get(i).setName(newName);
-                break;
-            }
+        if (!albumExists(album.getName())) {
+            albumList.add(album);
         }
     }
 
     public void deleteAlbum(String album) {
-        for (int i = albumList.size() -1; i >=0 ; i--) {
+        for (int i = albumList.size() - 1; i >= 0 ; i--) {
             if (albumList.get(i).getName().equals(album)) {
                 albumList.remove(i);
             }
@@ -43,12 +37,13 @@ public class User implements Serializable {
     }
 
     public boolean albumExists(String name) {
-        if (albumList.isEmpty()) return false;
+        if (albumList.isEmpty()){
+            return false;
+        }
 
-        for (int i = 0; i < albumList.size(); i++) {
-            if (albumList.get(i) != null) {
-                if (albumList.get(i).getName().equals(name))
-                    return true;
+        for (Album album : albumList) {
+            if (album != null && album.getName().equals(name)) {
+                return true;
             }
         }
         return false;
@@ -59,19 +54,27 @@ public class User implements Serializable {
     public ArrayList<Album> getAlbums() { return albumList; }
 
     public ArrayList<String> getAlbumNames() {
-        ArrayList<String> arr = new ArrayList<String>();
-        for (int i = 0; i < albumList.size(); i++) {
-            arr.add(albumList.get(i).getName());
+        ArrayList<String> result = new ArrayList<String>();
+        for (Album album : albumList) {
+            result.add(album.getName());
         }
-        return arr;
+        return result;
     }
 
     public Album getAlbum(String name) {
-        for (int i = 0; i < albumList.size(); i++) {
-            if (albumList.get(i).getName().equals(name))
-                return albumList.get(i);
+        for (Album album : albumList) {
+            if (album.getName().equals(name))
+                return album;
         }
         return null;
+    }
+
+    public boolean equals(Object o){
+        if (o == null || !(o instanceof User)){
+            return false;
+        }
+        User other = (User) o;
+        return this.username.equals(other.getUsername());
     }
 
 }

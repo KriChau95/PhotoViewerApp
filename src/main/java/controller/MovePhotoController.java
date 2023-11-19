@@ -5,7 +5,7 @@ import java.io.IOException;
 import application.Album;
 import application.Photo;
 import application.User;
-import application.Users;
+import application.UserData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,16 +18,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
-public class MovePhotoController extends Stage {
-
+public class MovePhotoController {
     @FXML
     Button CreateButton;
     @FXML
     Button CancelButton;
     @FXML
-    ListView<String> PossibleAlbumsListView;
+    ListView<String> DestinationAlbumList;
 
-    private Users users;
+    private UserData userData;
     private User user;
     private Album album;
     private Photo photo;
@@ -35,54 +34,42 @@ public class MovePhotoController extends Stage {
 
     private ObservableList<String> obsList;
 
-    public void move(ActionEvent event) throws IOException, ClassNotFoundException {
-        String albumname = PossibleAlbumsListView.getSelectionModel().getSelectedItem();
+    public void move(ActionEvent event) throws IOException {
+        String destinationAlbumName = DestinationAlbumList.getSelectionModel().getSelectedItem();
 
-        if (albumname == null)
-            return;
+        if (destinationAlbumName != null){
+            user.getAlbum(destinationAlbumName).addPhoto(photo);
+            album.removeIndex(index);
 
-        user.getAlbum(albumname).addPhoto(photo);
-        album.removeIndex(index);
+            UserData.store(userData);
 
-        Users.store(users);
-
-        loadMainWindow(event);
-
-    }
-
-
-    public void cancel(ActionEvent event) {
-        loadMainWindow(event); //go back
-    }
-
-    public void loadMainWindow(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/OpenAlbumWindow.fxml"));
-            Parent root = (Parent) loader.load();
-
-            OpenAlbumController controller = loader.<OpenAlbumController>getController();
-            controller.loadUser(user);
-            controller.loadUsers(users);
-            controller.loadAlbum(album);
-            controller.setup();
-
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            loadMainWindow(event);
         }
+
+    }
+
+    public void loadMainWindow(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/EditAlbumWindow.fxml"));
+        Parent root = (Parent) loader.load();
+
+        EditAlbumController controller = loader.<EditAlbumController>getController();
+        controller.loadUser(user);
+        controller.loadUsers(userData);
+        controller.loadAlbum(album);
+        controller.setup();
+
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public void loadUser(User user) {
         this.user = user;
     }
-
-    public void loadUsers(Users users) {
-        this.users = users;
+    public void loadUsers(UserData userData) {
+        this.userData = userData;
 
     }
 
@@ -92,16 +79,19 @@ public class MovePhotoController extends Stage {
 
     public void loadPhoto(Photo photo) {
         this.photo = photo;
-
     }
 
     public void loadIndex(int index) {
         this.index = index;
     }
 
+    public void quitApp(ActionEvent event){
+        System.exit(0);
+    }
+
     public void view() {
         obsList = FXCollections.observableArrayList(user.getAlbumNames());
-        PossibleAlbumsListView.setItems(obsList);
+        DestinationAlbumList.setItems(obsList);
     }
 
 }

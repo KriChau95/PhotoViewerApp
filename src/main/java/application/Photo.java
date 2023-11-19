@@ -17,7 +17,7 @@ public class Photo implements Serializable{
     private ArrayList<Tag> tagList;
     private int width;
     private int height;
-    private int[][] pixels;
+    private int[][] photoArray;
     private Calendar date;
 
     public Photo(Image i){
@@ -25,19 +25,21 @@ public class Photo implements Serializable{
         tagList = new ArrayList<Tag>();
         date = Calendar.getInstance();
         date.set(Calendar.MILLISECOND, 0);
-        setImage(i);
+        width = (int) i.getWidth();
+        height = (int) i.getHeight();
+        photoArray = new int[width][height];
+
+        PixelReader reader = i.getPixelReader();
+
+        for (int w = 0; w < width; w++) {
+            for (int h= 0; h < height; h++) {
+                photoArray[w][h] = reader.getArgb(w, h);
+            }
+        }
     }
 
     public ArrayList<Tag> getTagList(){
         return tagList;
-    }
-
-    public ArrayList<String> getTagStrings(){
-        ArrayList<String> result = new ArrayList<String>();
-        for (Tag tag : tagList) {
-            result.add(tag.toString());
-        }
-        return result;
     }
 
     public Image getImage(){
@@ -45,7 +47,7 @@ public class Photo implements Serializable{
         PixelWriter writer = result.getPixelWriter();
         for (int w = 0; w < width; w++){
             for (int h = 0; h < height; h++){
-                writer.setArgb(w, h, pixels [w][h]);
+                writer.setArgb(w, h, photoArray[w][h]);
             }
         }
         return result;
@@ -55,56 +57,36 @@ public class Photo implements Serializable{
         return caption;
     }
 
-    public Calendar getCalendar(){
+    public Calendar getDate(){
         return date;
-    }
-
-    public String getDate(){
-        return date.getTime().toString();
-    }
-
-    public void setImage(Image i){
-        width = 0 + (int) i.getWidth();
-        height = 0 + (int) i.getHeight();
-        pixels = new int[width][height];
-
-        PixelReader reader = i.getPixelReader();
-
-        for (int w = 0; w < width; w++) {
-            for (int h= 0; h < height; h++) {
-                pixels[w][h] = reader.getArgb(w, h);
-            }
-        }
     }
 
     public void setCaption(String caption){
         this.caption = caption;
     }
 
-    public boolean hasTag(String type, String value){
+    public boolean hasTag(Tag t){
         for (Tag tag : tagList) {
-            if (tag.getType().equals(type) && tag.getValue().equals(value)) {
+            if (tag.equals(t)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void addTag(String type, String value){
-        if (hasTag(type, value)){
+    public void addTag(Tag t){
+        if (hasTag(t)){
             return;
         }
-        tagList.add(new Tag (type, value));
+        tagList.add(t);
     }
 
-    public void removeTag(String name, String value) {
-        for (int i = tagList.size() - 1; i > 0 ; i--) {
-            if (tagList.get(i).getType().equals(name) && tagList.get(i).getValue().equals(value)) {
+    public void removeTag(Tag t) {
+        for (int i = tagList.size() - 1; i >= 0 ; i--) {
+            if (tagList.get(i).equals(t)) {
                 tagList.remove(i);
             }
         }
     }
-
-
 
 }

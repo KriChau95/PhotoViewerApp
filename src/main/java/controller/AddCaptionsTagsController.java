@@ -5,7 +5,8 @@ import java.io.IOException;
 import application.Album;
 import application.Photo;
 import application.User;
-import application.Users;
+import application.UserData;
+import application.Tag;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,17 +23,11 @@ public class AddCaptionsTagsController extends Stage {
     @FXML
     TextField TagsTextField;
 
-    private Users users;
+    private UserData userData;
     private User user;
     private Album album;
     private Photo photo;
 
-    /**
-     * update - the create button is pressed, and captions and tags are updated.
-     * @param event
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
     public void update(ActionEvent event) throws IOException, ClassNotFoundException {
 
         photo.setCaption(CaptionTextField.getText());
@@ -41,10 +36,12 @@ public class AddCaptionsTagsController extends Stage {
 
         if (!isValidTag(tag)) {
             return;
+        } else {
+            setTags(tag);//adds a photo tag
         }
-        setTags(tag);//adds a photo tag
 
-        Users.store(users);
+
+        UserData.store(userData);
 
         loadMainWindow(event);
 
@@ -54,13 +51,17 @@ public class AddCaptionsTagsController extends Stage {
      * @param text The text of the tag.
      */
     private void setTags(String text) {
-        String name = text.substring(0, text.indexOf(','));
+        if (text.contains(",")){
+            String name = text.substring(0, text.indexOf(','));
 
-        String value = text.substring(text.indexOf(',')+1);
-        name = name.trim();
-        value = value.trim();
+            String value = text.substring(text.indexOf(',')+1);
+            name = name.trim();
+            value = value.trim();
 
-        photo.addTag(name, value);
+            Tag toAdd = new Tag(name, value);
+
+            photo.addTag(toAdd);
+        }
     }
     /**
      * isValidTag - checks if tag is valid.
@@ -68,16 +69,18 @@ public class AddCaptionsTagsController extends Stage {
      * @return true if valid, false if not.
      */
     private boolean isValidTag(String tag) {
-        if (tag.length() == 0) return true;
+        if (tag.isEmpty()) return true;
 
-        if (tag.indexOf(',') == -1) return false;
+        String[] tagParts = tag.split(",");
 
-        if (tag.indexOf(',')+1 == tag.length()) return false;
-
-        if (tag.substring(tag.indexOf(',')+1).indexOf(',') != -1) return false;
+        // Check if there is at least one comma and the parts are not empty or whitespace only
+        if (tagParts.length != 2 || tagParts[0].trim().isEmpty() || tagParts[1].trim().isEmpty()) {
+            return false;
+        }
 
         return true;
     }
+
 
     /**
      * cancel - go back to main window.
@@ -94,12 +97,12 @@ public class AddCaptionsTagsController extends Stage {
     public void loadMainWindow(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/OpenAlbumWindow.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/EditAlbumWindow.fxml"));
             Parent root = (Parent) loader.load();
 
-            OpenAlbumController controller = loader.<OpenAlbumController>getController();
+            EditAlbumController controller = loader.<EditAlbumController>getController();
             controller.loadUser(user);
-            controller.loadUsers(users);
+            controller.loadUsers(userData);
             controller.loadAlbum(album);
             controller.setup();
 
@@ -121,10 +124,10 @@ public class AddCaptionsTagsController extends Stage {
     }
     /**
      * loadUsers - load all the users.
-     * @param users
+     * @param userData
      */
-    public void loadUsers(Users users) {
-        this.users = users;
+    public void loadUsers(UserData userData) {
+        this.userData = userData;
     }
     /**
      * loadAlbum - load the user's album.
