@@ -147,8 +147,10 @@ public class EditAlbumController {
     public void left() {
         if (index == 0) {
             index = size-1;
+            album.setCurrentIndex(index);
         } else {
             index--;
+            album.setCurrentIndex(index);
         }
         updateLatestView();
     }
@@ -156,8 +158,10 @@ public class EditAlbumController {
     public void right() {
         if (index+1 == size) {
             index = 0;
+            album.setCurrentIndex(index);
         } else{
             index++;
+            album.setCurrentIndex(index);
         }
         updateLatestView();
     }
@@ -165,6 +169,8 @@ public class EditAlbumController {
     public void captionChangeTags(ActionEvent event) throws IOException {
         Image image = PhotoView.getImage();
         if (image != null){
+            int currentIndex = index;
+            System.out.println(currentIndex);
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/AddCaptionsTagsWindow.fxml"));
             Parent root = (Parent) loader.load();
@@ -177,6 +183,9 @@ public class EditAlbumController {
             controller.setCaption(album.getPhoto(index).getCaption());
 
             setScene(event, root);
+
+            index = currentIndex;
+            System.out.println(currentIndex);
             updateLatestView();
         }
     }
@@ -221,12 +230,29 @@ public class EditAlbumController {
     private void update() {
         size = album.getSize();
         index = size-1;
+        album.setCurrentIndex(index);
     }
 
 
     public void setup() {
+        System.out.println("at setup" + index);
+        System.out.println("album var" + album.getCurrentIndex());
         size = album.getPhotoList().size();
-        index = album.getPhotoList().size()-1;
+        index = album.getCurrentIndex();
+        InfoArea.setEditable(false);
+        updateLatestView();
+    }
+
+    public void pasteSetup(){
+        size = album.getPhotoList().size();
+        index = size - 1;
+        InfoArea.setEditable(false);
+        updateLatestView();
+    }
+
+    public void moveSetup(){
+        size = album.getPhotoList().size();
+        index = size - 1;
         InfoArea.setEditable(false);
         updateLatestView();
     }
@@ -235,7 +261,7 @@ public class EditAlbumController {
 
         AlbumName.setText(album.getName());
 
-        if (index < 0) {
+        if (size == 0) {
             PhotoView.setImage(null);
             InfoArea.setText(album.getName()+ "\n" + "(no images to display)");
             displayTags();
@@ -256,7 +282,7 @@ public class EditAlbumController {
     }
 
     public void displayTags() {
-        if (index < 0) {
+        if (size == 0) {
             TagsListView.setItems(FXCollections.observableArrayList(new ArrayList<String>()));
             return;
         }

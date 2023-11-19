@@ -15,6 +15,14 @@ public class Album implements Serializable{
     private String name;
     private Photo earliestPhoto;
     private Photo latestPhoto;
+    private int currentIndex;
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+    public void setCurrentIndex(int i){
+        currentIndex = i;
+    }
 
     public Album(String name) {
         this.name = name;

@@ -32,8 +32,13 @@ public class CopyPhotoController {
 
     private ObservableList<String> obsList;
 
+    private String destinationAlbumName;
+    public String getDestinationAlbumName(){
+        return destinationAlbumName;
+    }
+
     public void copy(ActionEvent event) throws IOException, ClassNotFoundException {
-        String destinationAlbumName = DestinationAlbumList.getSelectionModel().getSelectedItem();
+        destinationAlbumName = DestinationAlbumList.getSelectionModel().getSelectedItem();
 
         if (destinationAlbumName != null){
             user.getAlbum(destinationAlbumName).addPhoto(photo);
@@ -53,8 +58,8 @@ public class CopyPhotoController {
         EditAlbumController controller = loader.<EditAlbumController>getController();
         controller.loadUser(user);
         controller.loadUsers(userData);
-        controller.loadAlbum(album);
-        controller.setup();
+        controller.loadAlbum(user.getAlbum(destinationAlbumName));
+        controller.pasteSetup();
 
         Scene scene = new Scene(root);
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
