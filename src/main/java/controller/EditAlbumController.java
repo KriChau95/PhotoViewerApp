@@ -67,11 +67,26 @@ public class EditAlbumController {
             System.out.println("Wrong type of file or error loading the image");
             return;
         }
-
-        album.addPhoto(new Photo(image));
+        if (isGifFile(file)){
+            album.addPhoto(new Photo(file));
+        } else {
+            album.addPhoto(new Photo(image));
+        }
         UserData.store(userData);
         update();
         updateLatestView();
+    }
+
+    private boolean isGifFile(File file) {
+        String fileName = file.getName();
+        String extension = "";
+
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            extension = fileName.substring(dotIndex + 1).toLowerCase();
+        }
+
+        return extension.equals("gif");
     }
 
     public void remove() {

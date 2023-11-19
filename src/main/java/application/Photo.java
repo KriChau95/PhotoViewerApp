@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class Photo implements Serializable{
     private int[][] photoArray;
     private Calendar date;
 
+    private String imageFilePath;
+
     public Photo(Image i){
         caption = "";
         tagList = new ArrayList<Tag>();
@@ -30,12 +33,21 @@ public class Photo implements Serializable{
         photoArray = new int[width][height];
 
         PixelReader reader = i.getPixelReader();
-
-        for (int w = 0; w < width; w++) {
-            for (int h= 0; h < height; h++) {
-                photoArray[w][h] = reader.getArgb(w, h);
+        if (reader != null){
+            for (int w = 0; w < width; w++) {
+                for (int h= 0; h < height; h++) {
+                    photoArray[w][h] = reader.getArgb(w, h);
+                }
             }
         }
+    }
+
+    public Photo(File f){
+        caption = "";
+        tagList = new ArrayList<Tag>();
+        date = Calendar.getInstance();
+        date.set(Calendar.MILLISECOND, 0);
+        imageFilePath = f.getPath();
     }
 
     public ArrayList<Tag> getTagList(){
@@ -43,14 +55,19 @@ public class Photo implements Serializable{
     }
 
     public Image getImage(){
-        WritableImage result = new WritableImage(width, height);
-        PixelWriter writer = result.getPixelWriter();
-        for (int w = 0; w < width; w++){
-            for (int h = 0; h < height; h++){
-                writer.setArgb(w, h, photoArray[w][h]);
+        if (width != 0){
+            WritableImage result = new WritableImage(width, height);
+            PixelWriter writer = result.getPixelWriter();
+            for (int w = 0; w < width; w++){
+                for (int h = 0; h < height; h++){
+                    writer.setArgb(w, h, photoArray[w][h]);
+                }
             }
+            return result;
+        } else {
+            return new Image(imageFilePath);
         }
-        return result;
+
     }
 
     public String getCaption(){
