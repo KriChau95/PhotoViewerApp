@@ -18,8 +18,8 @@
                         <Insets />
                     </opaqueInsets>
                 </Label>
-                <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#cancel" prefHeight="39.0" prefWidth="128.0" text="Cancel" />
-                <Button fx:id="QuitButton" mnemonicParsing="false" onAction="#quitApp" prefHeight="39.0" prefWidth="128.0" text="Quit Application" textFill="#252be1" />
+                <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#cancel" prefHeight="30.0" prefWidth="80.0" text="Cancel" />
+                <Button fx:id="QuitButton" mnemonicParsing="false" onAction="#quitApp" prefHeight="30.0" prefWidth="120.0" text="Quit Application" textFill="#252be1" />
             </children>
             <BorderPane.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -44,7 +44,7 @@
         </Text>
     </left>
     <center>
-        <TextField fx:id="UsernameTextField" onAction="#createNewUser" prefHeight="26.0" prefWidth="222.0" promptText="enter username here" BorderPane.alignment="CENTER">
+        <TextField fx:id="UsernameTextField" onAction="#createNewUser" prefHeight="26.0" prefWidth="222.0" promptText="Enter Username" BorderPane.alignment="CENTER">
             <BorderPane.margin>
                 <Insets left="10.0" right="10.0" />
             </BorderPane.margin>

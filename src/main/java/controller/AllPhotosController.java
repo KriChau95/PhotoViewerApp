@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 /**
  * The {@code AllPhotosController} class controls the user interface for viewing all photos in an album in a grid view.
  * It provides functionality for navigating back, editing the album, logging out, and quitting the application.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class AllPhotosController {
 

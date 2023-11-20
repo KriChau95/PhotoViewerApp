@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 /**
  * The {@code RenameAlbumController} class controls the user interface for renaming an album.
  * It provides methods for handling the renaming of an album, loading the main application window, and quitting the application.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class RenameAlbumController {
 

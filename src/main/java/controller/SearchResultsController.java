@@ -25,6 +25,7 @@ import javafx.stage.Stage;
  * The {@code SearchResultsController} class controls the user interface for displaying search results.
  * It provides methods for creating a new album from the search results, navigating through photos,
  * displaying photo information, managing tags, returning to the main application window, and quitting the application.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class SearchResultsController extends Stage{
 
@@ -98,10 +99,9 @@ public class SearchResultsController extends Stage{
      */
     public void updateLatestView() {
 
-        if (index < 0) {
+        if (index < 0 || size == 0) {
             PhotoView.setImage(null);
-            CaptionTextArea.setText(album.getName()+ "\n" + "(no images to display)");
-            tagsView();
+            CaptionTextArea.setText(album.getName()+ "\n" + "(No Result Images)");
             return;
         }
 

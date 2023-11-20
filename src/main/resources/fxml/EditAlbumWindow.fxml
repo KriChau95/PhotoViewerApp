@@ -15,7 +15,7 @@
     <right>
         <VBox prefHeight="502.0" prefWidth="353.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <TextArea fx:id="InfoArea" prefHeight="118.0" prefWidth="354.0" promptText="caption displays here" text="Date and Other Information" />
+                <TextArea fx:id="InfoArea" prefHeight="118.0" prefWidth="354.0" promptText="caption displays here" text="Date &amp; Other Information" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tags:">
                <font>
                   <Font size="22.0" />

@@ -22,6 +22,7 @@ import javafx.stage.Stage;
  * The {@code AdminSystemController} class controls the admin system interface, allowing the
  * administrator to create new users, delete existing users, logout, and quit the application.
  * <p>
+ * @author Krishaan Chaudhary & Preston Clawson
  * This class implements the {@link Initializable} interface to initialize the controller.
  */
 public class AdminSystemController implements Initializable{

@@ -15,6 +15,7 @@ import javafx.scene.image.WritableImage;
  * The {@code Photo} class represents a photo and the data associated
  * with it, such as a caption, list of tags, dimensions, and date of capture
  * <p>
+ * @author Krishaan Chaudhary & Preston Clawson
  * This class implements {@link Serializable} for serialization
  * */
 public class Photo implements Serializable{

@@ -8,44 +8,34 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="250.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCaptionsTagsController">
+<BorderPane prefHeight="251.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCaptionsTagsController">
     <top>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Change Captions/Add Tags" wrappingWidth="614.294921875" BorderPane.alignment="CENTER">
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Change Captions/Add Tags" textAlignment="CENTER" underline="true" wrappingWidth="400.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </BorderPane.margin>
         </Text>
     </top>
     <bottom>
-        <HBox prefHeight="47.0" prefWidth="622.0" spacing="10.0" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="500.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#goBackToEditWindow" prefHeight="39.0" prefWidth="105.0" text="Cancel" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="261.336669921875" />
-                <Button fx:id="UpdateButton" mnemonicParsing="false" onAction="#update" prefHeight="39.0" prefWidth="105.0" text="Update" />
-                <Button fx:id="QuitButton" mnemonicParsing="false" onAction="#quitApp" prefHeight="39.0" prefWidth="105.0" text="Quit Application" textFill="#252be1" />
+                <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#goBackToEditWindow" prefHeight="30.0" prefWidth="80.0" text="Cancel" />
+                <Button fx:id="UpdateButton" mnemonicParsing="false" onAction="#update" prefHeight="30.0" prefWidth="80.0" text="Change" />
+            <Button mnemonicParsing="false" onAction="#quitApp" prefHeight="30.0" prefWidth="120.0" text="Quit Application" textFill="#252be1" />
             </children>
             <BorderPane.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </BorderPane.margin>
         </HBox>
     </bottom>
-    <left>
-        <VBox alignment="CENTER_RIGHT" prefHeight="136.0" prefWidth="72.0" spacing="60.0" BorderPane.alignment="CENTER">
-            <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Caption:" wrappingWidth="66.9794921875" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tags:" wrappingWidth="46.728515625" />
-            </children>
-            <BorderPane.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </BorderPane.margin>
-        </VBox>
-    </left>
     <center>
         <VBox alignment="CENTER" prefHeight="136.0" prefWidth="517.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <TextField fx:id="CaptionTextField" promptText="enter caption here" />
-                <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter tags in this format: name,value" wrappingWidth="517.205078125" />
-                <TextField fx:id="TagsTextField" promptText="enter tags here" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Caption:" textAlignment="CENTER" wrappingWidth="95.0" />
+                <TextField fx:id="CaptionTextField" promptText="Enter Caption" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter tags in format &quot;name, value&quot;:" textAlignment="CENTER" underline="true" wrappingWidth="500.0" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Tags:" textAlignment="CENTER" wrappingWidth="69.99999618530273" />
+                <TextField fx:id="TagsTextField" promptText="Enter Tags" />
             </children>
             <BorderPane.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

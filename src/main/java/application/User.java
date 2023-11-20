@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * The {@code User} class represents a User of the Photos Application. Users can create and manage
  * albums to organize their photos.
  * <p>
+ * @author Krishaan Chaudhary & Preston Clawson
  * This class implements the {@link Serializable} interface to allow for serialization.
  */
 public class User implements Serializable {

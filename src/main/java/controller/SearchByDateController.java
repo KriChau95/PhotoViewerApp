@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 /**
  * The {@code SearchByDateController} class controls the user interface for searching photos by date.
  * It provides methods for searching photos within a specified date range, loading search results, returning to the main application window, and quitting the application.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class SearchByDateController extends Stage{
 

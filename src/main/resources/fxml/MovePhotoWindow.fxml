@@ -13,7 +13,7 @@
     <bottom>
         <HBox prefHeight="25.0" prefWidth="636.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#goBackToEditWindow" prefHeight="39.0" prefWidth="125.0" text="Cancel" />
+                <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#goBackToEditWindowCancel" prefHeight="39.0" prefWidth="125.0" text="Cancel" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="242.93670654296875" />
                 <Button fx:id="MovePhotoButton" mnemonicParsing="false" onAction="#move" prefHeight="39.0" prefWidth="125.0" text="Move Photo" />
                 <Button fx:id="QuitButton" mnemonicParsing="false" onAction="#quitApp" prefHeight="39.0" prefWidth="125.0" text="Quit Application" textFill="252be1"/>

@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 /**
  * The {@code SearchByTagsController} class controls the user interface for searching photos by tags.
  * It provides methods for searching photos with one or two tags, adding and removing tags, updating the view, loading search results, returning to the main application window, and quitting the application.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class SearchByTagsController implements Initializable {
 

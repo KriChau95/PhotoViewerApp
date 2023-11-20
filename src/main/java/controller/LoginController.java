@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 /**
  * The {@code LoginController} class controls the user interface for the login functionality.
  * It provides methods for handling user login, navigating to the main application window or admin system, and quitting the application.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class LoginController implements Initializable {
 

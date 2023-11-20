@@ -16,7 +16,7 @@
     <right>
         <VBox prefHeight="502.0" prefWidth="353.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <TextArea fx:id="CaptionTextArea" prefHeight="165.0" prefWidth="354.0" promptText="caption displays here" />
+                <TextArea fx:id="CaptionTextArea" prefHeight="165.0" prefWidth="354.0" promptText="Caption Here" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tags:">
                <font>
                   <Font size="19.0" />
@@ -32,24 +32,24 @@
                 <HBox prefHeight="94.0" prefWidth="1086.0" spacing="10.0">
                     <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="559.7366809844971" />
-                        <Button fx:id="LeftButton" mnemonicParsing="false" onAction="#left" prefHeight="39.0" prefWidth="60.0" text="&lt;-">
+                        <Button fx:id="LeftButton" mnemonicParsing="false" onAction="#left" prefHeight="30.0" prefWidth="60.0" text="&lt;-">
                             <HBox.margin>
                                 <Insets left="100.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="RightButton" mnemonicParsing="false" onAction="#right" prefHeight="39.0" prefWidth="60.0" text="-&gt;" />
+                        <Button fx:id="RightButton" mnemonicParsing="false" onAction="#right" prefHeight="30.0" prefWidth="60.0" text="-&gt;" />
                     </children>
                 </HBox>
                 <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                     <children>
-                        <Button fx:id="CreateNewAlbumButton" mnemonicParsing="false" onAction="#createNewAlbum" prefHeight="40.0" prefWidth="196.0" text="Create Album With Search Results" />
-                        <TextField fx:id="NewAlbumNameTextField" prefHeight="39.0" prefWidth="340.0" promptText="new album name here" />
-                        <Button fx:id="BackButton" mnemonicParsing="false" onAction="#goBackToMainWindow" prefHeight="38.0" prefWidth="63.0" text="Back">
+                        <Button fx:id="CreateNewAlbumButton" mnemonicParsing="false" onAction="#createNewAlbum" prefHeight="30.0" prefWidth="196.0" text="Create Album With Search Results" />
+                        <TextField fx:id="NewAlbumNameTextField" prefHeight="30.0" prefWidth="340.0" promptText="Album Name Here" />
+                        <Button fx:id="BackButton" mnemonicParsing="false" onAction="#goBackToMainWindow" prefHeight="30.0" prefWidth="63.0" text="Back">
                             <HBox.margin>
                                 <Insets left="400.0" />
                             </HBox.margin>
                         </Button>
-                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="105.0" text="Quit Application" onAction="#quitApp" textFill="252be1"/>
+                  <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Quit Application" onAction="#quitApp" textFill="252be1"/>
                     </children>
                 </HBox>
             </children>

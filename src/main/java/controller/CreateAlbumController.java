@@ -17,6 +17,7 @@ import java.io.IOException;
 /**
  * The {@code CreateAlbumController} class controls the user interface for creating a new album.
  * It provides functionality for creating an album, navigating back to the main application window, and quitting the application.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class CreateAlbumController {
 

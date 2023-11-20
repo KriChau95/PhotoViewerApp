@@ -13,8 +13,8 @@
     <bottom>
         <HBox alignment="CENTER_RIGHT" prefHeight="41.0" prefWidth="258.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-            <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#goBackToMainWindow" prefHeight="39.0" prefWidth="128.0" text="Cancel" />
-                <Button fx:id="QuitButton" mnemonicParsing="false" onAction="#quitApp" prefHeight="39.0" prefWidth="128.0" text="Quit Application" textFill="#252be1"/>
+            <Button fx:id="CancelButton" mnemonicParsing="false" onAction="#goBackToMainWindow" prefHeight="30.0" prefWidth="80.0" text="Cancel" />
+                <Button fx:id="QuitButton" mnemonicParsing="false" onAction="#quitApp" prefHeight="30.0" prefWidth="120.0" text="Quit Application" textFill="#252be1"/>
             </children>
             <BorderPane.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -29,7 +29,7 @@
         </Text>
     </left>
     <center>
-        <TextField fx:id="AlbumNameTextField" promptText="enter album name here" BorderPane.alignment="CENTER">
+        <TextField fx:id="AlbumNameTextField" promptText="New Album Name" BorderPane.alignment="CENTER">
             <BorderPane.margin>
                 <Insets left="10.0" right="10.0" />
             </BorderPane.margin>
@@ -49,7 +49,7 @@
         </VBox>
     </top>
    <right>
-       <Button fx:id="RenameButton" mnemonicParsing="false" onAction="#rename" prefHeight="35.0" prefWidth="128.0" text="Rename" BorderPane.alignment="CENTER">
+       <Button fx:id="RenameButton" mnemonicParsing="false" onAction="#rename" prefHeight="30.0" prefWidth="80.0" text="Rename" BorderPane.alignment="CENTER">
            <BorderPane.margin>
                <Insets left="10.0" right="10.0" />
            </BorderPane.margin>

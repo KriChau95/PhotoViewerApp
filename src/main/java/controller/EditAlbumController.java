@@ -25,6 +25,7 @@ import javafx.stage.Stage;
  * The {@code EditAlbumController} class controls the editing of an album.
  * It provides methods for adding photos, removing photos, copying/moving photos,
  * changing captions and tags, navigating through photos, and updating the view.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class EditAlbumController {
 

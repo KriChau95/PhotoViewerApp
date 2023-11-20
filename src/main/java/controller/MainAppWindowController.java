@@ -27,6 +27,7 @@ import javafx.stage.Stage;
  * It provides methods for handling user actions such as searching by tags or date,
  * creating, deleting, renaming, or opening albums, logging out, and quitting the application.
  * It also initializes the user interface components and updates the view with album information.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class MainAppWindowController implements Initializable {
 

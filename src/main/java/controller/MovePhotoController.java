@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 /**
  * The {@code MovePhotoController} class controls the user interface for moving a photo to another album.
  * It provides methods for handling the movement of a photo, loading the main application window, and quitting the application.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class MovePhotoController {
 
@@ -75,6 +76,29 @@ public class MovePhotoController {
         controller.loadUsers(userData);
         controller.loadAlbum(user.getAlbum(destinationAlbumName));
         controller.moveSetup();
+
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    /**
+     * Navigates back to the edit application window after cancelling the move photo operation.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
+    public void goBackToEditWindowCancel(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/EditAlbumWindow.fxml"));
+        Parent root = (Parent) loader.load();
+
+        EditAlbumController controller = loader.<EditAlbumController>getController();
+        controller.loadUser(user);
+        controller.loadUsers(userData);
+        controller.loadAlbum(album);
+        controller.setup();
 
         Scene scene = new Scene(root);
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -8,7 +8,8 @@ import java.util.ArrayList;
 /**
  * The {@code UserData} class represents the data storage and management for user-related information,
  * including user accounts and their associated albums and photos.
- *
+ * <p>
+ * @author Krishaan Chaudhary & Preston Clawson
  * This class implements the {@link Serializable} interface to allow for serialization.
  */
 public class UserData implements Serializable {

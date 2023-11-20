@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 /**
  * Controller class for handling the addition and update of captions and tags for a photo.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class AddCaptionsTagsController extends Stage {
 

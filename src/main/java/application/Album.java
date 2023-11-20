@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
  * The {@code Album} class represents a collection of photos, each with associated data.
  * It provides methods to manage and retrieve information about the photos in the album.
  * <p>
+ * @author Krishaan Chaudhary & Preston Clawson
  * This class implements the {@link Serializable} interface to allow for serialization.
  */
 public class Album implements Serializable{

@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 /**
  * The {@code CreateNewUserController} class controls the user interface for creating a new user.
  * It provides functionality for creating a new user, canceling the process, and quitting the application.
+ * @author Krishaan Chaudhary & Preston Clawson
  */
 public class CreateNewUserController extends Stage {
 

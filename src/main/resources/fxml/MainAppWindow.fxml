@@ -42,7 +42,7 @@
     <right>
         <VBox prefHeight="514.0" prefWidth="353.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <TextArea fx:id="PhotoInfoTextArea" prefHeight="509.0" prefWidth="343.0" promptText="(photo info placeholder)">
+                <TextArea fx:id="PhotoInfoTextArea" prefHeight="509.0" prefWidth="343.0" promptText="(Select Album to view Info Here)">
                     <VBox.margin>
                         <Insets right="10.0" />
                     </VBox.margin>
@@ -57,7 +57,7 @@
                     <children>
                         <Button fx:id="SearchByTagsButton" mnemonicParsing="false" onAction="#searchByTags" text="Search by Tags" />
                         <Button fx:id="SearchByDateButton" mnemonicParsing="false" onAction="#searchByDate" text="Search by Date" />
-                        <Button fx:id="LogoutButton" mnemonicParsing="false" onAction="#logout" text="Logout">
+                        <Button fx:id="LogoutButton" mnemonicParsing="false" onAction="#logout" text="Log Out">
                             <HBox.margin>
                                 <Insets left="565.0" />
                             </HBox.margin>

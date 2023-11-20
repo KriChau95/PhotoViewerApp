@@ -7,6 +7,7 @@ import java.io.Serializable;
  * The {@code Tag} class represents a tag with a name and a corresponding value.
  * Tags are used to categorize and annotate photos.
  * <p>
+ * @author Krishaan Chaudhary & Preston Clawson
  * This class implements the {@link Serializable} interface to allow for serialization.
  */
 public class Tag implements Serializable {
