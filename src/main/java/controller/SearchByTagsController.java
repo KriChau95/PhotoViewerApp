@@ -24,6 +24,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * The {@code SearchByTagsController} class controls the user interface for searching photos by tags.
+ * It provides methods for searching photos with one or two tags, adding and removing tags, updating the view, loading search results, returning to the main application window, and quitting the application.
+ */
 public class SearchByTagsController implements Initializable {
 
     private UserData userData;
@@ -42,11 +46,20 @@ public class SearchByTagsController implements Initializable {
 
     private ObservableList<String> obsList;
 
+    /**
+     * Searches for photos with one tag and loads the search results window.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void searchOneTag(ActionEvent event) throws IOException {
-        if (tags.isEmpty()) return;
+        if (tags.isEmpty()){
+            return;
+        }
 
         newAlbum = new Album("");
         ArrayList<Album> albums = user.getAlbums();
+
         for (Album album : albums) {
             for (int j = 0; j < album.getSize(); j++) {
                 Photo photo = album.getPhoto(j);
@@ -65,6 +78,12 @@ public class SearchByTagsController implements Initializable {
         loadSearchResultsWindow(event);
     }
 
+    /**
+     * Searches for photos with two tags using AND logic and loads the search results window.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void searchAndTags(ActionEvent event) throws IOException {
         if (tags.isEmpty()) return;
         if (tags.size() !=2) return;
@@ -97,6 +116,12 @@ public class SearchByTagsController implements Initializable {
         loadSearchResultsWindow(event);
     }
 
+    /**
+     * Searches for photos with two tags using OR logic and loads the search results window.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void searchOrTags(ActionEvent event) throws IOException {
         if (tags.isEmpty()) return;
         if (tags.size() !=2) return;
@@ -129,11 +154,16 @@ public class SearchByTagsController implements Initializable {
         loadSearchResultsWindow(event);
     }
 
+    /**
+     * Adds a tag to the list of selected tags. Limits the maximum number of tags for search criteria to be 2.
+     *
+     * @param event The action event.
+     */
     public void addTag(ActionEvent event) {
 
         String tag = TagsTextField.getText().trim();
 
-        if (!isValidTag(tag) || tags.size() ==2){
+        if (!isValidTag(tag) || tags.size() == 2){
             return;
         }
 
@@ -141,8 +171,8 @@ public class SearchByTagsController implements Initializable {
         String value = (tag.substring(tag.indexOf(',')+1)).trim();
 
         Tag toAdd = new Tag(name, value);
-        for (int i = 0; i < tags.size(); i++){
-            if (tags.get(i).equals(toAdd)){
+        for (Tag item : tags) {
+            if (item.equals(toAdd)) {
                 return;
             }
         }
@@ -151,6 +181,11 @@ public class SearchByTagsController implements Initializable {
         updateView();
     }
 
+    /**
+     * Removes a tag from the list of selected tags for search criteria.
+     *
+     * @param event The action event.
+     */
     public void removeTag(ActionEvent event) {
         String tag = TagsListView.getSelectionModel().getSelectedItem();
         if (tag == null) return;
@@ -158,7 +193,7 @@ public class SearchByTagsController implements Initializable {
         String name = tag.substring(0, tag.indexOf(':'));
         String value = tag.substring(tag.indexOf(':')+1);
 
-        for (int i=0; i < tags.size(); i++) {
+        for (int i= tags.size() - 1; i >=0; i--) {
             if (tags.get(i).getName().equals(name) && tags.get(i).getValue().equals(value)) {
                 tags.remove(i);
             }
@@ -167,18 +202,22 @@ public class SearchByTagsController implements Initializable {
         updateView();
     }
 
+    /**
+     * Checks if the provided tag is valid, based on the way it is entered
+     *
+     * @param tag The tag to validate.
+     * @return {@code true} if the tag is valid, {@code false} otherwise.
+     */
     private boolean isValidTag(String tag) {
-        if (tag.length() == 0) return false;
-
-        if (tag.indexOf(',') == -1) return false;
-
-        if (tag.indexOf(',')+1 == tag.length()) return false;
-
-        if (tag.substring(tag.indexOf(',')+1).indexOf(',') != -1) return false;
-
+        if (tag.isEmpty() || tag.indexOf(',') == -1 || tag.indexOf(',')+1 == tag.length() || tag.substring(tag.indexOf(',')+1).indexOf(',') != -1){
+            return false;
+        }
         return true;
     }
 
+    /**
+     * Updates the view with the selected tags.
+     */
     public void updateView() {
         ArrayList<String> tagStringList = new ArrayList<String>();
 
@@ -190,6 +229,12 @@ public class SearchByTagsController implements Initializable {
         TagsListView.setItems(obsList);
     }
 
+    /**
+     * Loads the search results window.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void loadSearchResultsWindow(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/SearchResultsWindow.fxml"));
@@ -204,6 +249,12 @@ public class SearchByTagsController implements Initializable {
         setScene(event, root);
     }
 
+    /**
+     * Returns to the main application window.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void goBackToMainWindow(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/MainAppWindow.fxml"));
@@ -217,6 +268,12 @@ public class SearchByTagsController implements Initializable {
         setScene(event, root);
     }
 
+    /**
+     * Sets the scene of the current stage with the provided root.
+     *
+     * @param event The action event triggering the scene change.
+     * @param root  The root node of the new scene.
+     */
     public void setScene(ActionEvent event, Parent root){
         Scene scene = new Scene(root);
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -224,26 +281,50 @@ public class SearchByTagsController implements Initializable {
         primaryStage.show();
     }
 
+    /**
+     * Initializes the setup for the controller by clearing the list of tags and calling the updateView() method.
+     */
     public void setup() {
         tags = new ArrayList<Tag>();
         updateView();
     }
 
+    /**
+     * Loads user information into the controller.
+     *
+     * @param user The user object.
+     */
     public void loadUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Loads user data into the controller.
+     *
+     * @param userData The user data object.
+     */
+    public void loadUsers(UserData userData) {
+        this.userData = userData;
+    }
+
+    /**
+     * Initializes the controller, so that the window size has certain dimensions and loads user data.
+     *
+     * @param arg0 The location to resolve the root object for the controller, or {@code null} if not known.
+     * @param arg1 The resources used to localize the root object, or {@code null} if not known.
+     */
     public void initialize(URL arg0, ResourceBundle arg1) {
         userData = UserData.load();
         root.setPrefWidth(900);
         root.setPrefHeight(550);
     }
 
+    /**
+     * Handles the "Quit Application" button action, exiting the application.
+     *
+     * @param event The action event.
+     */
     public void quitApp(ActionEvent event){
         System.exit(0);
-    }
-
-    public void loadUsers(UserData userData) {
-        this.userData = userData;
     }
 }

@@ -5,12 +5,23 @@ import javafx.scene.image.Image;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * The {@code UserData} class represents the data storage and management for user-related information,
+ * including user accounts and their associated albums and photos.
+ *
+ * This class implements the {@link Serializable} interface to allow for serialization.
+ */
 public class UserData implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
     private ArrayList<User> usersList;
     private final static String usersFile = "userdata.ser";
+
+    /**
+     * UserData Constructor - Constructs a UserData object and initializes a stock user with a
+     * default album stock containing 5 stock photos.
+     */
     public UserData() {
         usersList = new ArrayList<User>();
         User stock = new User("stock");
@@ -44,6 +55,12 @@ public class UserData implements Serializable {
         store(this);
     }
 
+    /**
+     * Gets a specific user based on their username.
+     *
+     * @param username The username of the user to retrieve.
+     * @return The user with the specified username, or {@code null} if not found.
+     */
     public User getUser(String username) {
         for (User user : usersList) {
             if (user.getUsername().equals(username)){
@@ -53,10 +70,20 @@ public class UserData implements Serializable {
         return null;
     }
 
+    /**
+     * Gets the list of users stored in UserData.
+     *
+     * @return The list of users.
+     */
     public ArrayList<User> getUserList() {
         return usersList;
     }
 
+    /**
+     * Gets the usernames of all users stored in UserData.
+     *
+     * @return The list of usernames.
+     */
     public ArrayList<String> getUsernames() {
         ArrayList<User> users = getUserList();
         ArrayList<String> usernames = new ArrayList<String>();
@@ -66,10 +93,11 @@ public class UserData implements Serializable {
         return usernames;
     }
 
-    public void addUser(User user) {
-        addUser(user.getUsername());
-    }
-
+    /**
+     * Adds a new user with the given username to UserData.
+     *
+     * @param username The username of the new user.
+     */
     public void addUser(String username) {
 
         if (usersList.isEmpty()){
@@ -77,8 +105,8 @@ public class UserData implements Serializable {
             return;
         }
 
-        for (int i = 0; i < usersList.size(); i++) {
-            if (usersList.get(i).getUsername().equals(username)) {
+        for (User user : usersList) {
+            if (user.getUsername().equals(username)) {
                 return;
             }
         }
@@ -86,6 +114,11 @@ public class UserData implements Serializable {
         usersList.add(new User(username));
     }
 
+    /**
+     * Deletes a user with the specified username from UserData.
+     *
+     * @param username The username of the user to delete.
+     */
     public void delete(String username) {
         for (int i = usersList.size()-1; i >=0; i--) {
             if (usersList.get(i).getUsername().equals(username)) {
@@ -95,6 +128,11 @@ public class UserData implements Serializable {
         }
     }
 
+    /**
+     * Stores the current state of UserData to a file.
+     *
+     * @param userData The UserData object to store.
+     */
     public static void store(UserData userData){
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(usersFile, false));
@@ -105,6 +143,11 @@ public class UserData implements Serializable {
         }
     }
 
+    /**
+     * Loads UserData from a file. If the file does not exist, a new UserData object is created and stored.
+     *
+     * @return The loaded or newly created UserData object.
+     */
     public static UserData load() {
         UserData userData = null;
         try {
@@ -119,17 +162,4 @@ public class UserData implements Serializable {
         }
         return userData;
     }
-
-    @Override
-    public String toString() {
-        String str = "";
-
-        for (int i = 0; i < usersList.size(); i++) {
-            str += usersList.get(i).getUsername() + "\n";
-        }
-
-        return str;
-
-    }
-
 }

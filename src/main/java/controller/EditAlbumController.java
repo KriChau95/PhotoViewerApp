@@ -1,10 +1,8 @@
 package controller;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 
 import application.*;
 import javafx.collections.FXCollections;
@@ -23,7 +21,11 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-
+/**
+ * The {@code EditAlbumController} class controls the editing of an album.
+ * It provides methods for adding photos, removing photos, copying/moving photos,
+ * changing captions and tags, navigating through photos, and updating the view.
+ */
 public class EditAlbumController {
 
     private UserData userData;
@@ -33,13 +35,10 @@ public class EditAlbumController {
 
     @FXML
     ImageView PhotoView;
-
     @FXML
     TextArea InfoArea;
-
     @FXML
     ListView<String> TagsListView;
-
     @FXML
     Text AlbumName;
     @FXML
@@ -47,7 +46,11 @@ public class EditAlbumController {
 
     private ObservableList<String> obsList;
 
-
+    /**
+     * Adds a photo to the album. Opens up a FileChooser to let the user select a Photo
+     *
+     * @param event The action event triggering the addition of a photo.
+     */
     public void addPhoto(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
@@ -59,12 +62,11 @@ public class EditAlbumController {
         try {
             image = new Image(file.toURI().toString());
         } catch (Exception e) {
-            System.out.println("Error loading the image: " + e.getMessage());
+            e.printStackTrace();
             return;
         }
 
         if (image.isError()) {
-            System.out.println("Wrong type of file or error loading the image");
             return;
         }
         if (isGifFile(file)){
@@ -77,27 +79,24 @@ public class EditAlbumController {
         updateLatestView();
     }
 
-    private boolean isGifFile(File file) {
-        String fileName = file.getName();
-        String extension = "";
-
-        int dotIndex = fileName.lastIndexOf('.');
-        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
-            extension = fileName.substring(dotIndex + 1).toLowerCase();
-        }
-
-        return extension.equals("gif");
-    }
-
+    /**
+     * Removes the selected photo from the album.
+     */
     public void remove() {
-        if (index >= 0){
+        if (size > 0){
             album.removeIndex(index); //removes photo
             UserData.store(userData);
-            update();
+            removePhotoUpdate();
             updateLatestView();
         }
     }
 
+    /**
+     * Sets the scene of the current stage with the provided root.
+     *
+     * @param event The action event triggering the scene change.
+     * @param root  The root node of the new scene.
+     */
     public void setScene(ActionEvent event, Parent root){
         Scene scene = new Scene(root);
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -105,6 +104,12 @@ public class EditAlbumController {
         primaryStage.show();
     }
 
+    /**
+     * Switches to the copy photo window, and transfers control to the CopyPhotoWindowController
+     *
+     * @param event The action event triggering the switch.
+     * @throws IOException If an I/O error occurs.
+     */
     public void copy(ActionEvent event) throws IOException {
         Image image = PhotoView.getImage();
         if (image != null) {
@@ -123,7 +128,31 @@ public class EditAlbumController {
         }
     }
 
+    /**
+     * Checks if the given File corresponds to a GIF file based on its file extension.
+     *
+     * @param file The File object to be checked.
+     * @return True if the file is a GIF, false otherwise.
+     */
+    private boolean isGifFile(File file) {
+        String fileName = file.getName();
+        String extension = "";
 
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            extension = fileName.substring(dotIndex + 1).toLowerCase();
+        }
+
+        return extension.equals("gif");
+    }
+
+
+    /**
+     * Switches to the move photo window and transfers control to the MovePhotoController
+     *
+     * @param event The action event triggering the switch.
+     * @throws IOException If an I/O error occurs.
+     */
     public void move(ActionEvent event) throws IOException {
         Image image = PhotoView.getImage();
         if (image != null) {
@@ -144,6 +173,9 @@ public class EditAlbumController {
     }
 
 
+    /**
+     * Navigates to the previous photo in the album.
+     */
     public void left() {
         if (index == 0) {
             index = size-1;
@@ -155,6 +187,9 @@ public class EditAlbumController {
         updateLatestView();
     }
 
+    /**
+     * Navigates to the next photo in the album.
+     */
     public void right() {
         if (index+1 == size) {
             index = 0;
@@ -166,11 +201,16 @@ public class EditAlbumController {
         updateLatestView();
     }
 
+    /**
+     * Switches to the caption and tags window for editing and transfers control to the AddCaptionsTagsWindow controller
+     *
+     * @param event The action event triggering the switch.
+     * @throws IOException If an I/O error occurs.
+     */
     public void captionChangeTags(ActionEvent event) throws IOException {
         Image image = PhotoView.getImage();
         if (image != null){
             int currentIndex = index;
-            System.out.println(currentIndex);
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/AddCaptionsTagsWindow.fxml"));
             Parent root = (Parent) loader.load();
@@ -185,11 +225,15 @@ public class EditAlbumController {
             setScene(event, root);
 
             index = currentIndex;
-            System.out.println(currentIndex);
             updateLatestView();
         }
     }
 
+    /**
+     * Removes the selected tag from the current photo.
+     *
+     * @param event The action event triggering the removal of the tag.
+     */
     public void removeTag(ActionEvent event) {
 
         String tag = TagsListView.getSelectionModel().getSelectedItem();
@@ -212,6 +256,12 @@ public class EditAlbumController {
     }
 
 
+    /**
+     * Navigates back to the all photos window.
+     *
+     * @param event The action event triggering the switch.
+     * @throws IOException If an I/O error occurs.
+     */
     public void back(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/AllPhotos.fxml"));
@@ -227,22 +277,45 @@ public class EditAlbumController {
     }
 
 
+    /**
+     * Updates the size and index of the album.
+     */
     private void update() {
         size = album.getSize();
         index = size-1;
         album.setCurrentIndex(index);
     }
 
+    /**
+     * Updates the size and index of the album in the case that a photo is removed, so that
+     * the user stays in the same point in the album slideshow
+     */
+    private void removePhotoUpdate(){
+        size = album.getSize();
+        int prevIndex = album.getCurrentIndex();
+        if (prevIndex == size){
+            index = size - 1;
+            album.setCurrentIndex(index);
+        } else {
+            index = prevIndex;
+        }
 
+    }
+
+
+    /**
+     * Initializes the controller with the current album and sets up the view.
+     */
     public void setup() {
-        System.out.println("at setup" + index);
-        System.out.println("album var" + album.getCurrentIndex());
         size = album.getPhotoList().size();
         index = album.getCurrentIndex();
         InfoArea.setEditable(false);
         updateLatestView();
     }
 
+    /**
+     * Sets up the view for pasting photos. Adjusts the index to the end of the destination album.
+     */
     public void pasteSetup(){
         size = album.getPhotoList().size();
         index = size - 1;
@@ -250,6 +323,9 @@ public class EditAlbumController {
         updateLatestView();
     }
 
+    /**
+     * Sets up the view for moving photos. Adjusts the index to the end of the destination album.
+     */
     public void moveSetup(){
         size = album.getPhotoList().size();
         index = size - 1;
@@ -257,6 +333,9 @@ public class EditAlbumController {
         updateLatestView();
     }
 
+    /**
+     * Updates the view with the latest photo information.
+     */
     public void updateLatestView() {
 
         AlbumName.setText(album.getName());
@@ -265,6 +344,7 @@ public class EditAlbumController {
             PhotoView.setImage(null);
             InfoArea.setText(album.getName()+ "\n" + "(no images to display)");
             displayTags();
+            Caption.setText("");
             return;
         }
 
@@ -281,6 +361,9 @@ public class EditAlbumController {
         displayTags();
     }
 
+    /**
+     * Displays the tags of the current photo in the list view.
+     */
     public void displayTags() {
         if (size == 0) {
             TagsListView.setItems(FXCollections.observableArrayList(new ArrayList<String>()));
@@ -294,6 +377,12 @@ public class EditAlbumController {
         TagsListView.setItems(obsList);
     }
 
+    /**
+     * Logs out the user and switches to the login window.
+     *
+     * @param event The action event triggering the logout.
+     * @throws IOException If an I/O error occurs.
+     */
     public void logout(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/Login.fxml"));
@@ -304,22 +393,38 @@ public class EditAlbumController {
         primaryStage.show();
     }
 
+    /**
+     * Handles the "Quit Application" button action, exiting the application.
+     *
+     * @param event The action event.
+     */
     public void quitApp(ActionEvent event){
         System.exit(0);
     }
 
+    /**
+     * Loads the user object into the controller.
+     *
+     * @param user The user object.
+     */
     public void loadUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Loads user data into the controller.
+     *
+     * @param userData The user data object.
+     */
     public void loadUsers(UserData userData) {
         this.userData = userData;
     }
 
-    public int rememberIndex(){
-        return index;
-    }
-
+    /**
+     * Loads the current album into the controller.
+     *
+     * @param album The current album.
+     */
     public void loadAlbum(Album album) {
         this.album = album;
     }

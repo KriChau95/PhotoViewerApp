@@ -35,10 +35,10 @@
             </Text>
                 <HBox prefHeight="94.0" prefWidth="1086.0" spacing="10.0">
                     <children>
-                        <Button fx:id="AddButton" mnemonicParsing="false" onAction="#addPhoto" prefHeight="39.0" prefWidth="110.0" text="Add" />
-                        <Button fx:id="RemoveButton" mnemonicParsing="false" onAction="#remove" prefHeight="39.0" prefWidth="110.0" text="Remove" />
-                        <Button fx:id="CopyButton" mnemonicParsing="false" onAction="#copy" prefHeight="39.0" prefWidth="110.0" text="Copy" />
-                        <Button fx:id="MoveButton" mnemonicParsing="false" onAction="#move" prefHeight="39.0" prefWidth="123.0" text="Move" />
+                        <Button fx:id="AddButton" mnemonicParsing="false" onAction="#addPhoto" prefHeight="39.0" prefWidth="110.0" text="Add Photo" />
+                        <Button fx:id="RemoveButton" mnemonicParsing="false" onAction="#remove" prefHeight="39.0" prefWidth="110.0" text="Remove Photo" />
+                        <Button fx:id="CopyButton" mnemonicParsing="false" onAction="#copy" prefHeight="39.0" prefWidth="110.0" text="Copy Photo" />
+                        <Button fx:id="MoveButton" mnemonicParsing="false" onAction="#move" prefHeight="39.0" prefWidth="123.0" text="Move Photo" />
                         <Button fx:id="LeftButton" mnemonicParsing="false" onAction="#left" prefHeight="39.0" prefWidth="60.0" text="&lt;-">
                             <HBox.margin>
                                 <Insets left="160.0" />

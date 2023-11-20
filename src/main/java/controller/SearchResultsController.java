@@ -21,6 +21,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+/**
+ * The {@code SearchResultsController} class controls the user interface for displaying search results.
+ * It provides methods for creating a new album from the search results, navigating through photos,
+ * displaying photo information, managing tags, returning to the main application window, and quitting the application.
+ */
 public class SearchResultsController extends Stage{
 
     private UserData userData;
@@ -42,36 +47,45 @@ public class SearchResultsController extends Stage{
 
     private ObservableList<String> obsList;
 
+    /**
+     * Creates a new album using the provided album name.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void createNewAlbum(ActionEvent event) throws IOException {
-        String albumname = NewAlbumNameTextField.getText();
-        if (albumname.equals("") || user.albumExists(albumname)) {
+        String albumName = NewAlbumNameTextField.getText();
+        if (albumName.isEmpty() || user.albumExists(albumName)) {
             // maybe have some text popup
             return;
         }
-
-        album.setName(albumname);
+        album.setName(albumName);
         user.addAlbum(album);
         UserData.store(userData);
         goBackToMainWindow(event);
     }
 
+    /**
+     * Navigates to the previous photo in the search results slideshow.
+     */
     public void left() {
         if (index == 0) index = size-1;
         else index--;
         updateLatestView();
     }
 
+    /**
+     * Navigates to the next photo in the search results slideshow.
+     */
     public void right() {
         if (index+1 == size) index = 0;
         else index++;
         updateLatestView();
     }
 
-    private void update() {
-        size = album.getSize();
-        index = size-1;
-    }
-
+    /**
+     * Initializes the setup for the controller.
+     */
     public void setup() {
         size = album.getPhotoList().size();
         index = album.getPhotoList().size()-1;
@@ -79,6 +93,9 @@ public class SearchResultsController extends Stage{
         updateLatestView();
     }
 
+    /**
+     * Updates the view with the latest photo information.
+     */
     public void updateLatestView() {
 
         if (index < 0) {
@@ -101,6 +118,9 @@ public class SearchResultsController extends Stage{
         tagsView();
     }
 
+    /**
+     * Displays the tags for the current photo.
+     */
     public void tagsView() {
         if (index < 0) {
             TagsListView.setItems(FXCollections.observableArrayList(new ArrayList<String>()));
@@ -114,6 +134,12 @@ public class SearchResultsController extends Stage{
         TagsListView.setItems(obsList);
     }
 
+    /**
+     * Returns to the main application window. Reverts control to the MainAppWindowController
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void goBackToMainWindow(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/MainAppWindow.fxml"));
@@ -130,18 +156,38 @@ public class SearchResultsController extends Stage{
         primaryStage.show();
     }
 
+    /**
+     * Handles the "Quit Application" button action, exiting the application.
+     *
+     * @param event The action event.
+     */
     public void quitApp(ActionEvent event){
         System.exit(0);
     }
 
+    /**
+     * Loads user information into the controller.
+     *
+     * @param user The user object.
+     */
     public void loadUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Loads user data into the controller.
+     *
+     * @param userData The user data object.
+     */
     public void loadUsers(UserData userData) {
         this.userData = userData;
     }
 
+    /**
+     * Loads album information into the controller.
+     *
+     * @param album The album object.
+     */
     public void loadAlbum(Album album) {
         this.album = album;
     }

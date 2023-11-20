@@ -19,36 +19,49 @@ import javafx.stage.Stage;
 import javafx.scene.control.Label;
 
 
+/**
+ * The {@code LoginController} class controls the user interface for the login functionality.
+ * It provides methods for handling user login, navigating to the main application window or admin system, and quitting the application.
+ */
 public class LoginController implements Initializable {
+
     @FXML
     TextField userInput = new TextField();
-
     @FXML
     private VBox root;
-
     @FXML
     private Label ErrorText;
 
     private UserData userData;
     private User user;
 
-    @FXML
-    protected void onQuitButtonClick() {
-        System.exit(0);
+    /**
+     * Sets the scene of the current stage with the provided root.
+     *
+     * @param event The action event triggering the scene change.
+     * @param root  The root node of the new scene.
+     */
+    public void setScene(ActionEvent event, Parent root){
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
-    @FXML
+    /**
+     * Handles the login action, directing the user to the appropriate interface based on the entered username.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void login(ActionEvent event) throws IOException {
         String username = userInput.getText().trim();
         if (username.equals("admin")) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/AdminSystem.fxml"));
             Parent root = (Parent) loader.load();
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } else if (username.equals("")) {
+            setScene(event, root);
+        } else if (username.isEmpty()) {
             ErrorText.setText("Please enter a username");
         }
         else {
@@ -67,13 +80,26 @@ public class LoginController implements Initializable {
             controller.loadUsers(userData);
             controller.view();
 
-            Scene scene = new Scene(root);
-            Stage primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            setScene(event, root);
 
         }
     }
+
+    /**
+     * Handles the "Quit Application" button action, exiting the application.
+     *
+     * @param event The action event.
+     */
+    public void quitApp(ActionEvent event) {
+        System.exit(0);
+    }
+
+    /**
+     * Initializes the controller with the specified URL and ResourceBundle and specifies preferred window dimensions.
+     *
+     * @param arg0 The URL location to resolve relative paths of the root object, or null if the location is not known.
+     * @param arg1 The ResourceBundle that was passed to the FXMLLoader, or null.
+     */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         userData = UserData.load();

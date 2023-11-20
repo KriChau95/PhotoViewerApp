@@ -18,10 +18,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+/**
+ * The {@code AdminSystemController} class controls the admin system interface, allowing the
+ * administrator to create new users, delete existing users, logout, and quit the application.
+ * <p>
+ * This class implements the {@link Initializable} interface to initialize the controller.
+ */
 public class AdminSystemController implements Initializable{
 
     @FXML
-    private BorderPane root;
+    BorderPane root;
     @FXML
     Button CreateNewButton;
     @FXML
@@ -29,14 +35,17 @@ public class AdminSystemController implements Initializable{
     @FXML
     Button LogoutButton;
     @FXML
-    Button QuitButton;
-    @FXML
     ListView<String> UsersListView;
 
     private ObservableList<String> obsList;
-
     private UserData userData;
 
+    /**
+     * Handles the "Create New User" button action, navigating to the Create New User window.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void createUser(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/CreateNewUserWindow.fxml"));
@@ -47,6 +56,9 @@ public class AdminSystemController implements Initializable{
         primaryStage.show();
     }
 
+    /**
+     * Handles the "Delete User" button action, deleting the selected user.
+     */
     public void deleteUser(ActionEvent e) {
         userData.delete(UsersListView.getSelectionModel().getSelectedItem());
         UserData.store(userData);
@@ -55,7 +67,12 @@ public class AdminSystemController implements Initializable{
         UsersListView.setItems(obsList);
     }
 
-    @FXML
+    /**
+     * Handles the "Logout" button action, returning to the login window.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void logout(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/Login.fxml"));
@@ -66,10 +83,21 @@ public class AdminSystemController implements Initializable{
         primaryStage.show();
     }
 
+    /**
+     * Handles the "Quit" button action, exiting the application.
+     *
+     * @param event The action event.
+     */
     public void quitApp(ActionEvent event){
         System.exit(0);
     }
 
+    /**
+     * Initializes the controller, loading user data, setting up the user list view, and setting a preferred window size.
+     *
+     * @param arg0 The URL.
+     * @param arg1 The ResourceBundle.
+     */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         userData = UserData.load();

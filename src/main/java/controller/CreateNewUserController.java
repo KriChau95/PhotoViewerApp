@@ -14,6 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * The {@code CreateNewUserController} class controls the user interface for creating a new user.
+ * It provides functionality for creating a new user, canceling the process, and quitting the application.
+ */
 public class CreateNewUserController extends Stage {
 
     @FXML
@@ -27,11 +31,29 @@ public class CreateNewUserController extends Stage {
 
     UserData userData;
 
+    /**
+     * Sets the scene of the current stage with the provided root.
+     *
+     * @param event The action event triggering the scene change.
+     * @param root  The root node of the new scene.
+     */
+    public void setScene(ActionEvent event, Parent root){
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    /**
+     * Creates a new user with the specified username, and goes back to the Admin System page when done.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void createNewUser(ActionEvent event) throws IOException {
 
-        String username = UsernameTextField.getText();
-        username = username.trim();
-        if (username.equals("")) {
+        String username = UsernameTextField.getText().trim();
+        if (username.isEmpty()) {
             ErrorText.setText("Invalid: empty username");
             return;
         }
@@ -47,25 +69,32 @@ public class CreateNewUserController extends Stage {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/AdminSystem.fxml"));
         Parent root = (Parent) loader.load();
-        Scene scene = new Scene(root);
-        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        primaryStage.setScene(scene);
-        primaryStage.show();
+
+        setScene(event, root);
 
     }
 
+    /**
+     * Cancels the user creation process and navigates back to the Admin System interface.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void cancel(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/AdminSystem.fxml"));
         Parent root = (Parent) loader.load();
-        Scene scene = new Scene(root);
-        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        primaryStage.setScene(scene);
-        primaryStage.show();
+
+        setScene(event, root);
 
     }
 
+    /**
+     * Handles the "Save & Quit" button action, exiting the application.
+     *
+     * @param event The action event.
+     */
     public void quitApp(ActionEvent event){
         System.exit(0);
     }

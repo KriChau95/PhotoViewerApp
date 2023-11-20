@@ -28,7 +28,7 @@
 
     <HBox alignment="CENTER" spacing="10.0">
         <Button onAction="#login" text="Login" />
-        <Button onAction="#onQuitButtonClick" text="Quit Application" />
+        <Button onAction="#quitApp" text="Quit Application" textFill="#252be1"/>
     </HBox>
 
     <Label fx:id="ErrorText" textFill="RED">

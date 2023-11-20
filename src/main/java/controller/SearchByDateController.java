@@ -21,6 +21,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 
+/**
+ * The {@code SearchByDateController} class controls the user interface for searching photos by date.
+ * It provides methods for searching photos within a specified date range, loading search results, returning to the main application window, and quitting the application.
+ */
 public class SearchByDateController extends Stage{
 
     private UserData userData;
@@ -29,10 +33,15 @@ public class SearchByDateController extends Stage{
 
     @FXML
     DatePicker StartDatePicker;
-
     @FXML
     DatePicker EndDatePicker;
 
+    /**
+     * Converts a {@code LocalDate} object to a {@code Calendar} object.
+     *
+     * @param ld The LocalDate object to convert.
+     * @return The corresponding Calendar object.
+     */
     public Calendar getCalendar(LocalDate ld){
         Instant startInstant = Instant.from(ld.atStartOfDay(ZoneId.systemDefault()));
         Date startingDate = Date.from(startInstant);
@@ -41,6 +50,12 @@ public class SearchByDateController extends Stage{
         return result;
     }
 
+    /**
+     * Performs a search for photos within the specified date range and loads the search results window.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void search(ActionEvent event) throws IOException {
 
         LocalDate startDate = StartDatePicker.getValue();
@@ -66,6 +81,12 @@ public class SearchByDateController extends Stage{
         loadSearchResultsWindow(event);
     }
 
+    /**
+     * Loads the search results window.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void loadSearchResultsWindow(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/SearchResultsWindow.fxml"));
@@ -80,6 +101,12 @@ public class SearchByDateController extends Stage{
         setScene(event, root);
     }
 
+    /**
+     * Returns to the main application window.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void goBackToMainWindow(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/MainAppWindow.fxml"));
@@ -93,6 +120,12 @@ public class SearchByDateController extends Stage{
         setScene(event, root);
     }
 
+    /**
+     * Sets the scene of the current stage with the provided root.
+     *
+     * @param event The action event triggering the scene change.
+     * @param root  The root node of the new scene.
+     */
     public void setScene(ActionEvent event, Parent root){
         Scene scene = new Scene(root);
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -100,14 +133,29 @@ public class SearchByDateController extends Stage{
         primaryStage.show();
     }
 
+    /**
+     * Handles the "Quit Application" button action, exiting the application.
+     *
+     * @param event The action event.
+     */
     public void quitApp(ActionEvent event){
         System.exit(0);
     }
 
+    /**
+     * Loads the user information into the controller.
+     *
+     * @param user The user object.
+     */
     public void loadUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Loads the user data into the controller.
+     *
+     * @param userData The user data object.
+     */
     public void loadUsers(UserData userData) {
         this.userData = userData;
     }

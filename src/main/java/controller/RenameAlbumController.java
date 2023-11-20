@@ -15,6 +15,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * The {@code RenameAlbumController} class controls the user interface for renaming an album.
+ * It provides methods for handling the renaming of an album, loading the main application window, and quitting the application.
+ */
 public class RenameAlbumController {
 
     @FXML
@@ -28,13 +32,21 @@ public class RenameAlbumController {
     Album album;
     User user;
 
+    /**
+     * Renames the album and updates the user data.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void rename(ActionEvent event) throws IOException {
 
         String albumName = AlbumNameTextField.getText().trim();
-        if (albumName.equals("") || user.albumExists(albumName)) {
+
+        if (albumName.isEmpty() || user.albumExists(albumName)) {
             // potential welcome/error text
             return;
         }
+
         album.setName(albumName);
         UserData.store(userData);
 
@@ -42,6 +54,12 @@ public class RenameAlbumController {
 
     }
 
+    /**
+     * Loads the main application window after the album has been renamed.
+     *
+     * @param event The action event.
+     * @throws IOException If an I/O error occurs.
+     */
     public void goBackToMainWindow(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/MainAppWindow.fxml"));
@@ -58,19 +76,39 @@ public class RenameAlbumController {
         primaryStage.show();
     }
 
-    public void quitApp(ActionEvent vent){
+    /**
+     * Handles the "Quit Application" button action, exiting the application.
+     *
+     * @param event The action event.
+     */
+    public void quitApp(ActionEvent event){
         System.exit(0);
     }
 
+    /**
+     * Loads the user information into the controller.
+     *
+     * @param user The user object.
+     */
     public void loadUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Loads the user data into the controller.
+     *
+     * @param userData The user data object.
+     */
     public void loadUsers(UserData userData) {
         this.userData = userData;
 
     }
 
+    /**
+     * Loads the album information into the controller.
+     *
+     * @param album The album object.
+     */
     public void loadAlbum(Album album) {
         this.album = album;
     }
